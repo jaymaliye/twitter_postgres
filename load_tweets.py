@@ -123,7 +123,7 @@ def insert_tweet(connection,tweet):
             VALUES
             (:id_users, :created_at, :updated_at, :screen_name, :name, :location,
             :id_urls, :description, :protected, :verified, :friends_count, :listed_count,
-            :favourites_count, "statuses_count, :withheld_in_countries)
+            :favourites_count, statuses_count, :withheld_in_countries)
             ON CONFLICT DO NOTHING
             ''')
 
