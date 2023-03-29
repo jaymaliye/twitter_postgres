@@ -89,7 +89,6 @@ def insert_tweet(connection,tweet):
     You'll need to add appropriate SQL insert statements to get it to work.
     '''
 
-
     # skip tweet if it's already inserted
     sql=sqlalchemy.sql.text('''
     SELECT id_tweets 
@@ -101,7 +100,11 @@ def insert_tweet(connection,tweet):
         })
     if res.first() is not None:
         return
-    
+
+    # insert tweet within a transaction;
+    # this ensures that a tweet does not get "partially" loaded
+    with connection.begin() as trans:
+
         ########################################
         # insert into the users table
         ########################################
