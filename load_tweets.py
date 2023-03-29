@@ -100,7 +100,10 @@ def insert_tweet(connection,tweet):
         })
     if res.first() is not None:
         return
+    # close open connection
+    connection.commit()
 
+    
     # insert tweet within a transaction;
     # this ensures that a tweet does not get "partially" loaded
     with connection.begin() as trans:
@@ -108,6 +111,7 @@ def insert_tweet(connection,tweet):
         ########################################
         # insert into the users table
         ########################################
+        if tweet['user']['url'] is None:
         if tweet['user']['url'] is None:
             user_id_urls = None
         else:
@@ -217,7 +221,6 @@ def insert_tweet(connection,tweet):
         except TypeError:
             place_name = None
 
-        # NOTE:
         # The tweets table has the following foreign key:
         # > FOREIGN KEY (in_reply_to_user_id) REFERENCES users(id_users)
         #
@@ -236,7 +239,7 @@ def insert_tweet(connection,tweet):
             ON CONFLICT DO NOTHING;            
             ''')
         res = connection.execute(sql,{
-        'id_users':tweet.get['in_reply_to_user_id'],
+        'id_users':tweet.get('in_reply_to_user_id'),
         })  
 
         # insert the tweet
@@ -329,6 +332,7 @@ def insert_tweet(connection,tweet):
                 :id_tweets,
                 :id_urls
                 )
+            ON CONFLICT DO NOTHIHNG
             ON CONFLICT DO NOTHIHNG
             ''')
             res=connection.execute(sql,{
@@ -442,7 +446,6 @@ def insert_tweet(connection,tweet):
             VALUES
                 (
                 :id_tweets,
-                "id_urls
                 )    
             ''')
             connection.execute(sql,{
