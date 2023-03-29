@@ -122,6 +122,7 @@ def insert_tweet(connection,tweet):
                  created_at,
                  updated_at,
                  id_urls,
+                 friends_count,
                  listed_count,
                  favourites_count,
                  statuses_count,
@@ -139,6 +140,7 @@ def insert_tweet(connection,tweet):
                  :created_at,
                  :updated_at,
                  :id_urls,
+                 :friends_count,
                  :listed_count,
                  :favourites_count,
                  :statuses_count,
@@ -281,7 +283,7 @@ def insert_tweet(connection,tweet):
             :state_code,
             :lang,
             :place_name,
-            :geo,
+            :geo
             )
         ''')
 
@@ -299,10 +301,10 @@ def insert_tweet(connection,tweet):
         'withheld_in_countries':tweet.get('withheld_in_countries', None),
         'source':remove_nulls(tweet.get('source', None)),
         'text':remove_nulls(text),
-        'country_code':remove_nulls('country_code'),
-        'state_code':remove_nulls('state_code'),
+        'country_code':remove_nulls(country_code),
+        'state_code':remove_nulls(state_code),
         'lang':tweet.get('lang', None),
-        'place_name':remove_nulls('place_name'),
+        'place_name':remove_nulls(place_name),
         'geo':None
         })
         
@@ -333,7 +335,7 @@ def insert_tweet(connection,tweet):
             ''')
             res=connection.execute(sql,{
             'id_tweets':tweet['id'],
-            'is_urls':id_urls
+            'id_urls':id_urls
             })
 
         ########################################
@@ -362,7 +364,7 @@ def insert_tweet(connection,tweet):
                 (
                 :id_users
                 )
-            ON CONFLICT DO NOTHIHG
+            ON CONFLICT DO NOTHING
             ''')
             connection.execute(sql, {
             'id_users':mention['id']
