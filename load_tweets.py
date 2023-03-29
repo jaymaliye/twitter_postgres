@@ -141,7 +141,7 @@ def insert_tweet(connection,tweet):
             'friends_count': tweet['user']['friends_count'],
             'listed_count': tweet['user']['listed_count'],
             'favourites_count': tweet['user']['favourites_count'],
-            'statuses_count': remove_nulls(tweet['user']['statuses_count']),
+            'statuses_count': user.get('statuses_count'), 
             'withheld_in_countries': tweet['user'].get('withheld_in_countries', None),
             })
             
