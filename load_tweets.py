@@ -91,9 +91,8 @@ def insert_tweet(connection,tweet):
 
 
 
-
+    connection.commit()
     with connection.begin() as trans:
-
         # skip tweet if it's already inserted
         sql=sqlalchemy.sql.text('''
         SELECT id_tweets 
