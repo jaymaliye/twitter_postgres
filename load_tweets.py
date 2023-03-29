@@ -151,7 +151,7 @@ def insert_tweet(connection,tweet):
             ON CONFLICT DO NOTHING
             ''')
         res = connection.execute(sql,{
-            'id_users':tweet['user']['id']
+            'id_users':tweet['user']['id'],
             'created_at':tweet['user']['created_at'],
             'updated_at':tweet['created_at'],
             'id_urls':user_id_urls,
@@ -165,7 +165,7 @@ def insert_tweet(connection,tweet):
             'name':remove_nulls(tweet['user']['name']),
             'location':remove_nulls(tweet['user']['location']),
             'description':remove_nulls(tweet['user']['description']),
-            'withheld_in_countries':tweet['user'].get('withheld_in_countries', None)
+            'withheld_in_countries':tweet['user'].get('withheld_in_countries', None),
             })
 
         ########################################
@@ -258,7 +258,7 @@ def insert_tweet(connection,tweet):
             state_code,
             lang,
             place_name,
-            geo,
+            geo
             )
         VALUES
             (
@@ -301,8 +301,7 @@ def insert_tweet(connection,tweet):
         'state_code':remove_nulls(state_code),
         'lang':tweet.get('lang', None),
         'place_name':remove_nulls(place_name),
-        'geo':None
-        })
+        'geo':None})
         
         ########################################
         # insert into the tweet_urls table
