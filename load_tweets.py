@@ -236,7 +236,7 @@ def insert_tweet(connection,tweet):
             ON CONFLICT DO NOTHING;            
             ''')
         res = connection.execute(sql,{
-        'id_users':tweet.['in_reply_to_user_id'],
+        'id_users':tweet['in_reply_to_user_id'],
         })  
 
         # insert the tweet
