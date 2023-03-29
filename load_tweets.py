@@ -141,7 +141,7 @@ def insert_tweet(connection,tweet):
             'friends_count': tweet['user']['friends_count'],
             'listed_count': tweet['user']['listed_count'],
             'favourites_count': tweet['user']['favourites_count'],
-            'statuses_count': tweet['user']['statuses_count'],
+            'statuses_count': remove_nulls(tweet['user']['statuses_count']),
             'withheld_in_countries': tweet['user'].get('withheld_in_countries', None),
             })
             
@@ -390,7 +390,7 @@ def insert_tweet(connection,tweet):
             ''')
             res =  connection.execute(sql, {
             'id_tweets':tweet['id'],
-            'tag':remove_nulls(tag)
+            'tag':tag
             })
 
         ########################################
@@ -412,19 +412,16 @@ def insert_tweet(connection,tweet):
                 (
                 id_tweets,
                 id_urls,
-                type
                 )
             VALUES
                 (
                 :id_tweets,
                 id_urls,
-                :type
                 )    
             ''')
             connection.execute(sql,{
             'id_tweets':tweet['id'],
             'id_urls':id_urls,
-            'type':medium['type']
             })            
 
 ################################################################################
