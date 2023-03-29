@@ -128,21 +128,21 @@ def insert_tweet(connection,tweet):
             ''')
 
         res = connection.execute(sql,{
-            'id_users':tweet['user']['id'],
-            'created_at':tweet['user']['created_at'],
-            'updated_at':tweet['created_at'],
-            'screen_name':remove_nulls(tweet['user']['screen_name']),
-            'name':remove_nulls(tweet['user']['name']),
-            'location':remove_nulls(tweet['user']['location']),
-            'id_urls':user_id_urls,
-            'description':remove_nulls(tweet['user']['description']),
-            'protected':tweet['user']['protected'],
-            'verified':tweet['user']['verified'],
-            'friends_count':tweet['user']['friends_count'],
-            'listed_count':tweet['user']['listed_count'],
-            'favourites_count':tweet['user']['favourites_count'],
-            'statuses_count':tweet['user']['statuses_count'],
-            'withheld_in_countries':tweet['user'].get('withheld_in_countries', None),
+            'id_users': tweet['user']['id'],
+            'created_at': tweet['user']['created_at'],
+            'updated_at': tweet['created_at'],
+            'screen_name': remove_nulls(tweet['user']['screen_name']),
+            'name': remove_nulls(tweet['user']['name']),
+            'location': remove_nulls(tweet['user']['location']),
+            'id_urls': user_id_urls,
+            'description': remove_nulls(tweet['user']['description']),
+            'protected': tweet['user']['protected'],
+            'verified': tweet['user']['verified'],
+            'friends_count': tweet['user']['friends_count'],
+            'listed_count': tweet['user']['listed_count'],
+            'favourites_count': tweet['user']['favourites_count'],
+            'statuses_count': tweet['user']['statuses_count'],
+            'withheld_in_countries': tweet['user'].get('withheld_in_countries', None),
             })
             
         ########################################
@@ -211,7 +211,7 @@ def insert_tweet(connection,tweet):
             ON CONFLICT DO NOTHING;            
             ''')
         res = connection.execute(sql,{
-        'id_users':tweet['in_reply_to_user_id'],
+        'id_users':tweet['in_reply_to_user_id']
         })  
 
         # insert the tweet
