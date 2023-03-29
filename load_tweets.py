@@ -102,7 +102,6 @@ def insert_tweet(connection,tweet):
     if res.first() is not None:
         return
     
-
         ########################################
         # insert into the users table
         ########################################
@@ -186,11 +185,11 @@ def insert_tweet(connection,tweet):
         except TypeError:
             place_name = None
 
-        # The tweets table has the following foreign key:
-        # > FOREIGN KEY (in_reply_to_user_id) REFERENCES users(id_users)
-        #
-        # This means that every "in_reply_to_user_id" field must reference a valid entry in the users table.
-        # If the id is not in the users table, then you'll need to add it in an "unhydrated" form.
+            # The tweets table has the following foreign key:
+            # > FOREIGN KEY (in_reply_to_user_id) REFERENCES users(id_users)
+            #
+            # This means that every "in_reply_to_user_id" field must reference a valid entry in the users table.
+            # If the id is not in the users table, then you'll need to add it in an "unhydrated" form.
         if tweet.get('in_reply_to_user_id',None) is not None:
             sql=sqlalchemy.sql.text('''
                 INSERT INTO users
@@ -202,8 +201,8 @@ def insert_tweet(connection,tweet):
             res = connection.execute(sql,{
                 'id_users':tweet['in_reply_to_user_id']
                 })  
-
-        # insert the tweet
+    
+            # insert the tweet
             sql=sqlalchemy.sql.text('''
                 INSERT INTO tweets
                 (id_tweets,
@@ -264,7 +263,7 @@ def insert_tweet(connection,tweet):
                 'lang':tweet.get('lang', None),
                 'place_name':remove_nulls(place_name),
                 'geo':None})
-        
+            
         ########################################
         # insert into the tweet_urls table
         ########################################
