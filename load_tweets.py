@@ -91,19 +91,20 @@ def insert_tweet(connection,tweet):
 
 
 
+    with connection.begin() as trans:
+    # skip tweet if it's already inserted
+    sql=sqlalchemy.sql.text('''
+    SELECT id_tweets 
+    FROM tweets
+    WHERE id_tweets = :id_tweets
+    ''')
+    res = connection.execute(sql,{
+        'id_tweets':tweet['id'],
+        })
+    if res.first() is not None:
+        return
     connection.commit()
     with connection.begin() as trans:
-        # skip tweet if it's already inserted
-        sql=sqlalchemy.sql.text('''
-        SELECT id_tweets 
-        FROM tweets
-        WHERE id_tweets = :id_tweets
-        ''')
-        res = connection.execute(sql,{
-            'id_tweets':tweet['id'],
-            })
-        if res.first() is not None:
-            return
 
         ########################################
         # insert into the users table
@@ -113,8 +114,6 @@ def insert_tweet(connection,tweet):
         else:
             user_id_urls = get_id_urls(tweet['user']['url'], connection)
 
-        user = tweet['user']
-        
         # create/update the user
         sql = sqlalchemy.sql.text('''
             INSERT INTO users
